@@ -1,24 +1,33 @@
 <template>
   <div class="service-catalog">
-    <h1>Service Catalog</h1>
+    <h1 class="header">
+      Service Hub
+    </h1>
+    <h3>
+      Organize services, manage and track versioning and API service
+      documentation. <a href="#">Learn more</a>
+    </h3>
     <input
       v-model="searchQuery"
       class="search-input"
       data-testid="search-input"
       placeholder="Search services"
     >
-    <ul
+    <div
       v-if="services.length"
       class="catalog"
     >
       <ServiceCard
         v-for="service in services"
         :key="service.id"
+        :configured="service.configured"
         :description="service.description"
+        :metrics="service.metrics"
         :name="service.name"
+        :published="service.published"
         :versions="service.versions"
       />
-    </ul>
+    </div>
     <div
       v-else
       data-testid="no-results"
@@ -48,10 +57,14 @@ const searchQuery = ref('')
 }
 
 .catalog {
-    display: flex;
-    flex-wrap: wrap;
-    list-style: none;
+    display: grid;
+    grid-gap: 40px 40px;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     margin: 20px 0 0 0;
+}
+
+.header {
+    margin: 0;
 }
 
 input {
