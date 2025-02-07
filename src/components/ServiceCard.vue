@@ -1,8 +1,13 @@
 <!-- eslint-disable vue/require-default-prop -->
 <template>
   <div class="card">
-    <ServiceStatus :status="status" />
-    <h2 class="header">
+    <div class="header-block">
+      <ServiceStatus :status="status" />
+      <div v-if="versions.length">
+        <ServiceVersions :versions-count="versions.length" />
+      </div>
+    </div>
+    <h2 class="heading">
       {{ name }}
     </h2>
     <p class="subheading">
@@ -12,15 +17,15 @@
       v-if="metrics && hasValue(metrics)"
       class="metrics"
     >
-      <p v-if="metrics.latency">
+      <div v-if="metrics.latency">
         <img
           class="dot"
           src="/public/icon-dot.svg"
         >
         <span class="emphasis">{{ metrics.latency }}ms</span>
         latency
-      </p>
-      <p v-if="metrics.uptime">
+      </div>
+      <div v-if="metrics.uptime">
         <img
           class="dot"
           src="/public/icon-dot.svg"
@@ -29,8 +34,8 @@
           formatPercentage(metrics.uptime)
         }}</span>
         uptime
-      </p>
-      <p v-if="metrics.requests && metrics.errors">
+      </div>
+      <div v-if="metrics.requests && metrics.errors">
         <img
           class="dot"
           src="/public/icon-dot.svg"
@@ -41,7 +46,7 @@
           formatPercentage(metrics.errors)
         }}</span>
         errors
-      </p>
+      </div>
     </div>
   </div>
 </template>
@@ -49,6 +54,7 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 import ServiceStatus from './ServiceStatus.vue'
+import ServiceVersions from './ServiceVersions.vue'
 import type { Version, Metrics } from '@/types/service'
 import { PUBLICATION_STATUS } from '@/types/service'
 
@@ -109,7 +115,14 @@ const status = computed(() => {
     }
 }
 
-.header {
+.header-block {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.heading {
     font-size: 20px;
     font-weight: 600;
     line-height: 24px;
@@ -129,6 +142,10 @@ const status = computed(() => {
     line-height: 16px;
     margin: 0;
     text-align: left;
+
+    div {
+        margin-top: 4px;
+    }
 }
 
 .emphasis {
