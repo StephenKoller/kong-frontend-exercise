@@ -28,6 +28,24 @@ export default function useServices(): any {
     }
   }
 
+  const searchServices = async (searchTerm: string): Promise<any> => {
+    try {
+      // Initialize loading state
+      loading.value = true
+
+      // Fetch data from the API
+      const { data } = await axios.get(`/api/services?q=${searchTerm}`)
+
+      // Store data in Vue ref
+      services.value = data
+    } catch (err: any) {
+      error.value = true
+    } finally {
+      // Reset loading state
+      loading.value = false
+    }
+  }
+
   onBeforeMount(async (): Promise<void> => {
     // Fetch services from the API
     await getServices()
@@ -36,6 +54,7 @@ export default function useServices(): any {
   // Return stateful data
   return {
     services,
+    searchServices,
     loading,
     error,
   }

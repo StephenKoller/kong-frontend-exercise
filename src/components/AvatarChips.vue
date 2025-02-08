@@ -57,7 +57,7 @@ const firstTwoChips = computed(() => props.chips.slice(0, 3))
     justify-content: center;
     letter-spacing: 2px;
     line-height: 24px;
-    width: 38px;
     margin-top: -2px;
+    width: 38px;
 }
 </style>

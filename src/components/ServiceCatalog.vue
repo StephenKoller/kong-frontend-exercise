@@ -8,10 +8,11 @@
       documentation. <a href="#">Learn more</a>
     </h3>
     <input
-      v-model="searchQuery"
+      v-model.trim="searchQuery"
       class="search-input"
       data-testid="search-input"
       placeholder="Search services"
+      @keydown="handleSearch"
     >
     <div
       v-if="services.length"
@@ -43,10 +44,17 @@ import useServices from '@/composables/useServices'
 import ServiceCard from './ServiceCard.vue'
 
 // Import services from the composable
-const { services /*, loading */ } = useServices()
+const { services, searchServices /*, loading */ } = useServices()
 
 // Set the search string to a Vue ref
 const searchQuery = ref('')
+
+function handleSearch(e: KeyboardEvent) {
+  if (e.key === 'Enter') {
+    searchServices(searchQuery.value)
+  }
+}
+
 </script>
 
 <style lang="scss" scoped>
