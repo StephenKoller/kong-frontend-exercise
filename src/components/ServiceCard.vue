@@ -1,78 +1,79 @@
 <!-- eslint-disable vue/require-default-prop -->
 <template>
-  <div class="card">
-    <div class="header-block">
+  <section class="card">
+    <header>
       <ServiceStatus :status="status" />
       <div v-if="versions.length">
         <ServiceVersions :versions-count="versions.length" />
       </div>
-    </div>
-    <h2 class="heading">
-      {{ name }}
-    </h2>
-    <p class="subheading">
-      {{ description }}
-    </p>
-    <div
-      v-if="metrics && hasValue(metrics)"
-      class="metrics"
-    >
-      <div v-if="metrics.latency">
-        <img
-          class="dot"
-          src="/public/icon-dot.svg"
-        >
-        <span class="emphasis">{{ metrics.latency }}ms</span>
-        latency
+    </header>
+
+    <main>
+      <h2 class="heading">
+        {{ name }}
+      </h2>
+      <p class="subheading">
+        {{ description }}
+      </p>
+    </main>
+
+    <footer>
+      <div
+        v-if="metrics && hasValue(metrics)"
+        class="metrics"
+      >
+        <div v-if="metrics.latency">
+          <img
+            class="dot"
+            src="/public/icon-dot.svg"
+          >
+          <span class="emphasis">{{ metrics.latency }}ms</span>
+          latency
+        </div>
+        <div v-if="metrics.uptime">
+          <img
+            class="dot"
+            src="/public/icon-dot.svg"
+          >
+          <span class="emphasis">{{
+            formatPercentage(metrics.uptime)
+          }}</span>
+          uptime
+        </div>
+        <div v-if="metrics.requests && metrics.errors">
+          <img
+            class="dot"
+            src="/public/icon-dot.svg"
+          >
+          <span class="emphasis">{{ formatThousands(metrics.requests) }}k</span>
+          requests &nbsp;·&nbsp;
+          <span class="emphasis">{{
+            formatPercentage(metrics.errors)
+          }}</span>
+          errors
+        </div>
       </div>
-      <div v-if="metrics.uptime">
-        <img
-          class="dot"
-          src="/public/icon-dot.svg"
-        >
-        <span class="emphasis">{{
-          formatPercentage(metrics.uptime)
-        }}</span>
-        uptime
+      <div class="avatars">
+        <AvatarChips
+          v-if="chips.length"
+          :chips="chips"
+        />
       </div>
-      <div v-if="metrics.requests && metrics.errors">
-        <img
-          class="dot"
-          src="/public/icon-dot.svg"
-        >
-        <span class="emphasis">{{ round(metrics.requests) }}k</span>
-        requests &nbsp;·&nbsp;
-        <span class="emphasis">{{
-          formatPercentage(metrics.errors)
-        }}</span>
-        errors
-      </div>
-    </div>
-  </div>
+    </footer>
+  </section>
 </template>
 
 <script lang="ts" setup>
 import { computed } from 'vue'
 import ServiceStatus from './ServiceStatus.vue'
 import ServiceVersions from './ServiceVersions.vue'
+import AvatarChips from './AvatarChips.vue'
 import type { Version, Metrics } from '@/types/service'
 import { PUBLICATION_STATUS } from '@/types/service'
+import { formatThousands, formatPercentage } from '@/utils/formatters'
 
 function hasValue(obj: Record<string, any>): boolean {
   return Object.values(obj).some((value) => !!value)
-}
-
-function round(num: number, unit?: 'M' | 'k'): number {
-  if (unit) {
-    return Math.round(num / (unit === 'M' ? 1000000 : 1000))
-  }
-  return Math.round(num / 1000)
-}
-
-function formatPercentage(num: number): string {
-  const floatToPercentage = (num: number) => num * 100
-  const formattedPercentage = floatToPercentage(num).toFixed(2)
-  return `${formattedPercentage}%`
 }
 
 const props = defineProps<{
@@ -81,7 +82,7 @@ const props = defineProps<{
   versions: Version[];
   published: boolean;
   configured: boolean;
-  metrics: Metrics;
+  metrics?: Metrics;
 }>()
 
 const { published, configured } = props
@@ -95,27 +96,38 @@ const status = computed(() => {
     return PUBLICATION_STATUS.UNPUBLISHED
   }
 })
+
+const chips = computed(() => {
+  if (!Array.isArray(props.versions)) {
+    return []
+  }
+  return props.versions
+    .filter(version => version.developer)
+    .map(version =>
+      ({
+        imageUrl: version.developer?.avatar,
+        name: version.developer?.name,
+      }),
+    )
+})
+
 </script>
 
 <style lang="scss" scoped>
 .card {
     background-color: #fff;
     border-radius: 2px;
+    display: flex;
+    flex-direction: column;
     margin: 6px;
-    min-height: 200px;
     padding: 20px;
-
-    /* p:first-of-type {
-        color: #333;
-        font-weight: 700;
-    } */
 
     p {
         color: #707888;
     }
 }
 
-.header-block {
+header {
     align-items: center;
     display: flex;
     justify-content: space-between;
@@ -140,12 +152,24 @@ const status = computed(() => {
     font-size: 12px;
     font-weight: 600;
     line-height: 16px;
-    margin: 0;
+    margin-top: auto;
     text-align: left;
 
     div {
         margin-top: 4px;
     }
+}
+
+.avatars {
+    align-self: flex-end;
+}
+
+footer {
+    align-items: flex-end;
+    display: flex;
+    flex: auto;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 .emphasis {

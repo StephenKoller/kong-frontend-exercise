@@ -2,7 +2,15 @@ export interface Version {
   id: string;
   name: string;
   description: string;
+  developer: Developer;
   updated_at: string;
+}
+
+export interface Developer {
+  id: string;
+  name: string;
+  email: string;
+  avatar: string;
 }
 
 export interface Metrics {
