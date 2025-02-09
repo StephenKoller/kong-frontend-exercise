@@ -25,29 +25,47 @@
             @keydown="handleSearch"
           >
         </div>
+        <button class="create-service">
+          <img
+            alt="plus icon"
+            src="/public/icon-plus.svg"
+          >
+          Service Package
+        </button>
       </div>
     </header>
-    <div
-      v-if="services.length"
-      class="catalog"
-    >
-      <ServiceCard
-        v-for="service in services"
-        :key="service.id"
-        :configured="service.configured"
-        :description="service.description"
-        :metrics="service.metrics"
-        :name="service.name"
-        :published="service.published"
-        :versions="service.versions"
-      />
-    </div>
-    <div
-      v-else
-      data-testid="no-results"
-    >
-      No services
-    </div>
+    <main>
+      <div
+        v-if="loading"
+        class="catalog"
+      >
+        <SkeletonCard
+          v-for="i in 9"
+          :key="i"
+        />
+      </div>
+      <div
+        v-if="!loading && services.length"
+        class="catalog"
+      >
+        <ServiceCard
+          v-for="service in services"
+          :key="service.id"
+          :configured="service.configured"
+          :description="service.description"
+          :metrics="service.metrics"
+          :name="service.name"
+          :published="service.published"
+          :versions="service.versions"
+        />
+      </div>
+      <div
+        v-else-if="!loading && !services.length"
+        data-testid="no-results"
+      >
+        No services
+      </div>
+    </main>
   </div>
 </template>
 
@@ -55,6 +73,7 @@
 import { ref } from 'vue'
 import useServices from '@/composables/useServices'
 import ServiceCard from './ServiceCard.vue'
+import SkeletonCard from './SkeletonCard.vue'
 
 // Import services from the composable
 const { services, searchServices, loading } = useServices()
@@ -79,7 +98,14 @@ function handleSearch(e: KeyboardEvent) {
 
 header {
   display: flex;
+  align-items: center;
   justify-content: space-between;
+
+  .right {
+      display: flex;
+      flex-direction: row;
+      gap: 20px;
+  }
 }
 
 .catalog {
@@ -89,7 +115,8 @@ header {
     margin: 20px 0 0 0;
 }
 
-.header {
+h1 {
+    color: #3c4557;
     margin: 0;
 }
 
@@ -150,6 +177,31 @@ input {
 
     &::placeholder {
         color: #6F7787;
+    }
+}
+
+.create-service {
+    align-items: center;
+
+    background: hsl(170, 92%, 34%);
+    border: none;
+    border-radius: 100px;
+    color: #fff;
+    display: flex;
+    flex-direction: row;
+
+    font-size: 16px;
+    font-weight: 600;
+    gap: 8px;
+    height: 44px;
+    line-height: 20px;
+    padding: 12px 16px 12px 18px;
+    text-align: center;
+
+    width: 197px;
+
+    &:hover {
+        background: hsl(170, 92%, 29%);
     }
 }
 
