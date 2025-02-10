@@ -30,16 +30,18 @@
    - [x] Display a '+' if more than 2 developers
 
 #### Task 5: Create an 'nav' component
+   - [x] Display a navigation component
 
 ### Milestone 2: Search
 #### Task 1: Create a search component
- - [ ] search should work for name / description / type
-
-#### Task 2: Add search to card list component
-#### Task 3: Add test coverage
+ - [x] search should work for name / description / type
 
 ### Milestone 3: Pagination
 #### Task 1: Create a pagination component
+ - [x] Display a list of pages
+ - [x] Display a 'next' and 'previous' button
+ - [ ] Item count should be dynamic based on search results
+
 #### Task 2: Add test coverage
 
 ### Milestone 4: Wire up more views
@@ -55,6 +57,10 @@
 #### Task 1: Responsive design
  - [ ] target breakpoints: 320px, 768px, 1024px, 1440px
  - [ ] test on mobile, tablet, desktop
+ - [ ] make SCSS variables for colors, fonts, etc
+
+#### Task 2: Documentation
+ - [ ] update the README in the project with a section to describe your design considerations, assumptions, and trade-offs made during this exercise. Also feel free to include any notes about your submission.
 
 #### Task 2: Accessibility
 
@@ -69,3 +75,11 @@
 ### Stretch Goal 3: Add more features
 
 ### Stretch Goal 4: Refactor styles
+
+## Future Improvements
+
+- make pagination more standard, allow user to jump to a specific page
+- add more filters to search
+- make card height consistent to avoid jumping when paging through results
+- make navbar responsive at mobile widths
+- prevent skeleton cards from flashing when loadin

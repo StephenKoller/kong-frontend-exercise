@@ -8,7 +8,7 @@
 defineProps<{ versionsCount: number }>()
 
 function formatPlural(count: number): string {
-  return count === 1 ? 'Version' : 'Versions'
+  return count === 1 ? 'version' : 'versions'
 }
 </script>
 

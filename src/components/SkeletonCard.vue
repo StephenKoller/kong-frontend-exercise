@@ -26,7 +26,6 @@
     border-radius: 2px;
     display: flex;
     flex-direction: column;
-    margin: 6px;
     padding: 20px;
 }
 

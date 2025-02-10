@@ -10,6 +10,26 @@ export default function useServices(): any {
   const loading = ref<any>(false)
   const error = ref<any>(false)
 
+  const paginateResults = (data: any) => {
+    // need to show 9 services per page
+    const perPage = 9
+
+    // slice into groups of 9
+    // e.g. { 0: [0, 1, 2, 3, 4, 5, 6, 7, 8], 1: [9, 10, 11, 12, 13, 14, 15, 16, 17] }
+    const paginatedData = data.reduce((acc: any, curr: any, index: number) => {
+      const pageIndex = Math.floor(index / perPage)
+      if (!acc[pageIndex]) {
+        acc[pageIndex] = []
+      }
+      acc[pageIndex].push(curr)
+      return acc
+    }, [])
+
+    console.log(paginatedData)
+
+    return paginatedData
+  }
+
   const getServices = async (): Promise<any> => {
     try {
       // Initialize loading state
@@ -19,7 +39,7 @@ export default function useServices(): any {
       const { data } = await axios.get('/api/services')
 
       // Store data in Vue ref
-      services.value = data
+      services.value = paginateResults(data)
     } catch (err: any) {
       error.value = true
     } finally {
@@ -37,7 +57,7 @@ export default function useServices(): any {
       const { data } = await axios.get(`/api/services?q=${searchTerm}`)
 
       // Store data in Vue ref
-      services.value = data
+      services.value = paginateResults(data)
     } catch (err: any) {
       error.value = true
     } finally {

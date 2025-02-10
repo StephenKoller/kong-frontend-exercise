@@ -45,7 +45,7 @@
             class="dot"
             src="/public/icon-dot.svg"
           >
-          <span class="emphasis">{{ formatThousands(metrics.requests) }}k</span>
+          <span class="emphasis">{{ formatLargeNumber(metrics.requests) }}</span>
           requests &nbsp;·&nbsp;
           <span class="emphasis">{{
             formatPercentage(metrics.errors)
@@ -70,7 +70,7 @@ import ServiceVersions from './ServiceVersions.vue'
 import AvatarChips from './AvatarChips.vue'
 import type { Version, Metrics } from '@/types/service'
 import { PUBLICATION_STATUS } from '@/types/service'
-import { formatThousands, formatPercentage } from '@/utils/formatters'
+import { formatLargeNumber, formatPercentage } from '@/utils/formatters'
 
 function hasValue(obj: Record<string, any>): boolean {
   return Object.values(obj).some((value) => !!value)
@@ -119,7 +119,6 @@ const chips = computed(() => {
     border-radius: 2px;
     display: flex;
     flex-direction: column;
-    margin: 6px;
     padding: 20px;
 
     p {
@@ -138,6 +137,7 @@ header {
     font-size: 20px;
     font-weight: 600;
     line-height: 24px;
+    margin-top:0;
 }
 
 .subheading {

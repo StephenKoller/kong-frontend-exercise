@@ -4,7 +4,9 @@
       alt="status icon"
       :src="statusContent[status].icon"
     >
-    {{ statusContent[status].text }}
+    <span class="opacity-70">
+      {{ statusContent[status].text }}
+    </span>
   </div>
 </template>
 
@@ -39,12 +41,15 @@ const statusContent = {
     font-size: 12px;
     font-weight: 400;
     line-height: 16px;
-    margin-top: 8px;
 
     img {
         height: 16px;
-        margin-right: 8px;
+        margin-right: 5px;
         width: 16px;
     }
+}
+
+.opacity-70 {
+    opacity: 0.7;
 }
 </style>

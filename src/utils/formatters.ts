@@ -1,8 +1,8 @@
-export function formatThousands(num: number /*unit?: 'M' | 'k' */): number {
-  // if (unit) {
-  //   return Math.round(num / (unit === 'M' ? 1000000 : 1000))
-  // }
-  return Math.round(num / 1000)
+export function formatLargeNumber(num: number): string {
+  if (num > 1000000) {
+    return Math.floor(num / 10000) / 100 + 'M'
+  }
+  return Math.floor(num / 1000) + 'k'
 }
 
 const floatToPercentage = (num: number) => num * 100

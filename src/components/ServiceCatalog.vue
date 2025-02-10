@@ -1,10 +1,8 @@
 <template>
-  <div class="service-catalog">
+  <section class="service-catalog">
     <header>
       <div class="left">
-        <h1 class="header">
-          Service Hub
-        </h1>
+        <h1>Service Hub</h1>
         <h3>
           Organize services, manage and track versioning and API service
           documentation. <a href="#">Learn more</a>
@@ -37,56 +35,77 @@
     <main>
       <div
         v-if="loading"
-        class="catalog"
+        class="results"
       >
         <SkeletonCard
           v-for="i in 9"
           :key="i"
         />
       </div>
-      <div
-        v-if="!loading && services.length"
-        class="catalog"
-      >
-        <ServiceCard
-          v-for="service in services"
-          :key="service.id"
-          :configured="service.configured"
-          :description="service.description"
-          :metrics="service.metrics"
-          :name="service.name"
-          :published="service.published"
-          :versions="service.versions"
-        />
-      </div>
-      <div
-        v-else-if="!loading && !services.length"
-        data-testid="no-results"
-      >
-        No services
+      <div v-else>
+        <div
+          v-if="servicesPage.length"
+          class="results"
+        >
+          <ServiceCard
+            v-for="service in servicesPage"
+            :key="service.id"
+            :configured="service.configured"
+            :description="service.description"
+            :metrics="service.metrics"
+            :name="service.name"
+            :published="service.published"
+            :versions="service.versions"
+          />
+        </div>
+        <div
+          v-else
+          class="no-results"
+        >
+          No services
+        </div>
       </div>
     </main>
-  </div>
+    <footer>
+      <PaginationControl
+        :items-on-current-page="servicesPage.length"
+        :total-pages="totalPages"
+      />
+    </footer>
+  </section>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { watchEffect, ref } from 'vue'
+import { usePaginationStore } from '@/stores/pagination'
 import useServices from '@/composables/useServices'
+
+import PaginationControl from './PaginationControl.vue'
 import ServiceCard from './ServiceCard.vue'
 import SkeletonCard from './SkeletonCard.vue'
 
-// Import services from the composable
+const paginationStore = usePaginationStore()
+
 const { services, searchServices, loading } = useServices()
 
-// Set the search string to a Vue ref
+const totalPages = ref(0)
+
+const servicesPage = ref(services.value[paginationStore.currentPage])
+
+watchEffect(() => {
+  const currentPage = paginationStore.currentPage
+  servicesPage.value = services.value[currentPage] || []
+  totalPages.value = Math.ceil(Object.keys(services.value).length / 9)
+})
+
 const searchQuery = ref('')
 
 function handleSearch(e: KeyboardEvent) {
   if (e.key === 'Enter') {
+    paginationStore.setPage(0)
     searchServices(searchQuery.value)
   }
 }
-
 </script>
 
 <style lang="scss" scoped>
@@ -97,8 +116,8 @@ function handleSearch(e: KeyboardEvent) {
 }
 
 header {
-  display: flex;
   align-items: center;
+  display: flex;
   justify-content: space-between;
 
   .right {
@@ -108,10 +127,14 @@ header {
   }
 }
 
-.catalog {
+main {
+    height: 900px;
+}
+
+.results {
     display: grid;
     grid-gap: 40px 40px;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
     margin: 20px 0 0 0;
 }
 
@@ -203,6 +226,14 @@ input {
     &:hover {
         background: hsl(170, 92%, 29%);
     }
+}
+
+.no-results {
+    align-items: center;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    text-align: center;
 }
 
 </style>
