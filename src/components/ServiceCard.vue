@@ -1,6 +1,9 @@
 <!-- eslint-disable vue/require-default-prop -->
 <template>
-  <section class="card">
+  <section
+    class="card"
+    @click="navigateToService"
+  >
     <header>
       <ServiceStatus :status="status" />
       <div v-if="versions.length">
@@ -9,6 +12,7 @@
     </header>
 
     <main>
+      <h1>{{ $route.params.id }} </h1>
       <h2 class="heading">
         {{ name }}
       </h2>
@@ -71,12 +75,20 @@ import AvatarChips from './AvatarChips.vue'
 import type { Version, Metrics } from '@/types/service'
 import { PUBLICATION_STATUS } from '@/types/service'
 import { formatLargeNumber, formatPercentage } from '@/utils/formatters'
+import { useRouter } from 'vue-router'
 
 function hasValue(obj: Record<string, any>): boolean {
   return Object.values(obj).some((value) => !!value)
 }
 
+const router = useRouter()
+
+function navigateToService() {
+  router.push(`/service/${props.id}`)
+}
+
 const props = defineProps<{
+  id: string,
   name: string;
   description: string;
   versions: Version[];
@@ -120,6 +132,13 @@ const chips = computed(() => {
     display: flex;
     flex-direction: column;
     padding: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    &:hover {
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
+        cursor: pointer;
+        /* transform: translateY(-2px); */
+    }
 
     p {
         color: #707888;

@@ -49,6 +49,7 @@
         >
           <ServiceCard
             v-for="service in servicesPage"
+            :id="service.id"
             :key="service.id"
             :configured="service.configured"
             :description="service.description"

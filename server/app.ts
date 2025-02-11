@@ -47,6 +47,20 @@ app.route('/api/:entity').get((req: Request, res: Response) => {
   return res.status(200).send(filteredData)
 })
 
+// Service details route
+app.route('/api/:entity/:id').get((req: Request, res: Response) => {
+  const { entity, id } = req.params
+  const data: Record<string, any>[] = response[entity]
+
+  const service = data.find((service: Record<string, any>) => service.id === id)
+  console.log(service)
+  if (!service) {
+    return res.status(404).send('Not found')
+  }
+  return res.status(200).send(service)
+})
+
+
 // Catch-all
 app.route('*').get((req: Request, res: Response) => {
   res.status(404).send('Not found')
