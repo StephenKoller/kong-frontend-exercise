@@ -19,7 +19,7 @@
 
 #### Task 2: Create a card list component
    - [x] Display a list of cards
-   - [ ] clicking card should navigate to service details view
+   - [x] clicking card should navigate to service details view
 
 #### Task 3: Create a 'version badge' component
    - [x] Display a badge with number of versions
@@ -46,12 +46,13 @@
 
 ### Milestone 4: Wire up more views
 #### Task 1: Handle Create Service Package view
-- [ ] Create a form to create a service package
-- [ ] wire up navigation to create service package view
+- [ ] ~~Create a form to create a service package~~
+- [ ] ~~wire up navigation to create service package view~~
+- [x] just do an alert for now
 
 #### Task 2: Create a service details view
-- [ ] Display all service details
-- [ ] wire up navigation to service details view
+- [x] Display all service details
+- [x] wire up navigation to service details view
 
 ### Milestone 5: Final Polish
 #### Task 1: Responsive design
@@ -80,6 +81,7 @@
 
 - make pagination more standard, allow user to jump to a specific page
 - add more filters to search
+- add 'clear search' button
 - make card height consistent to avoid jumping when paging through results
 - make navbar responsive at mobile widths
 - prevent skeleton cards from flashing when loadin

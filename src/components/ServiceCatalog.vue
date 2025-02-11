@@ -23,7 +23,10 @@
             @keydown="handleSearch"
           >
         </div>
-        <button class="create-service">
+        <button
+          class="create-service"
+          @click="handleCreateService"
+        >
           <img
             alt="plus icon"
             src="/public/icon-plus.svg"
@@ -107,6 +110,10 @@ function handleSearch(e: KeyboardEvent) {
     paginationStore.setPage(0)
     searchServices(searchQuery.value)
   }
+}
+
+function handleCreateService() {
+  alert('create service package clicked!')
 }
 </script>
 
