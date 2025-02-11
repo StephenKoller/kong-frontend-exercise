@@ -62,6 +62,7 @@
         <div
           v-else
           class="no-results"
+          data-testid="no-results"
         >
           No services
         </div>
