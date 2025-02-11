@@ -125,7 +125,7 @@ function handleCreateService() {
 }
 
 header {
-  align-items: center;
+  align-items: start;
   display: flex;
   justify-content: space-between;
 
@@ -145,11 +145,6 @@ main {
     grid-gap: 40px 40px;
     grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
     margin: 20px 0 0 0;
-}
-
-h1 {
-    color: #3c4557;
-    margin: 0;
 }
 
 input {
@@ -194,7 +189,6 @@ input {
 }
 
 .search-input {
-
     border: none;
     font-size: 14px;
     font-weight: 400;
@@ -232,8 +226,10 @@ input {
 
     width: 197px;
 
+    /* HSL is nicer for handling color changes, esp. if you want to mimic real-world shadows */
+    /* https://www.learnui.design/blog/color-in-ui-design-a-practical-framework.html#real-world-color-variations */
     &:hover {
-        background: hsl(170, 92%, 29%);
+        background: hsl(180, 100%, 27%);
     }
 }
 

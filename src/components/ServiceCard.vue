@@ -16,7 +16,7 @@
       <h2 class="heading">
         {{ name }}
       </h2>
-      <p class="subheading">
+      <p class="description">
         {{ description }}
       </p>
     </main>
@@ -131,6 +131,7 @@ const chips = computed(() => {
     border-radius: 2px;
     display: flex;
     flex-direction: column;
+    height: 232x;
     padding: 20px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 
@@ -146,10 +147,11 @@ const chips = computed(() => {
 }
 
 header {
-    align-items: center;
+    align-items: baseline;
     display: flex;
+    height: 32px;
     justify-content: space-between;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .heading {
@@ -159,11 +161,17 @@ header {
     margin-top:0;
 }
 
-.subheading {
+.description {
+    -webkit-box-orient: vertical;
     color: #707888;
+    display: -webkit-box;
     font-size: 13px;
     font-weight: 400;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
     line-height: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .metrics {

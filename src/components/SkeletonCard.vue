@@ -33,7 +33,7 @@ header {
     align-items: center;
     display: flex;
     justify-content: space-between;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 footer {
