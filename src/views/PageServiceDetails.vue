@@ -28,7 +28,7 @@
             class="avatar"
             :src="version.developer.avatar"
           >
-          {{ version.developer.name }}
+          {{ formatDeveloperName(version.developer.name) }}
           {{ version.updatedAt }}
         </div>
       </div>
@@ -42,6 +42,12 @@ import useServiceDetails from '@/composables/useServiceDetails'
 
 const { serviceDetails } = useServiceDetails()
 const versionsCount = ref(2)
+
+const formatDeveloperName = (name: string) => {
+  const parts = name.split(' ')
+  return `${parts[0]} ${parts[1][0]}.`
+}
+
 </script>
 
 <style scoped>
