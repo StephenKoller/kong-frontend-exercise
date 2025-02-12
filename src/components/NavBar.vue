@@ -18,7 +18,7 @@
           alt="people icon"
           src="/public/icon-people.svg"
         >
-        Organization</a>
+        <span class="hidden-xs">Organization</span></a>
       <a
         class="settings"
         href="#"
@@ -27,7 +27,7 @@
           alt="gear icon"
           src="/public/icon-cog.svg"
         >
-        Settings</a>
+        <span class="hidden-xs">Settings</span></a>
       <a
         class="userMenu"
         href="#"
@@ -36,7 +36,7 @@
           alt="person icon"
           src="/public/icon-avatar.svg"
         >
-        Katherine Ellis</a>
+        <span class="hidden-xs">Katherine Ellis</span></a>
     </div>
   </nav>
 </template>
@@ -58,7 +58,6 @@ nav {
 }
 
 .right {
-
     display: flex;
     flex-direction: row;
     /* need this set to 100% to allow child to take up full height for bg color */
@@ -84,17 +83,30 @@ nav {
         &:last-of-type {
             margin-right: 0;
         }
+
+        @media (max-width: 768px) {
+            margin: 0 8px;
+        }
     }
 
     img {
         margin-right: 12px;
-    }
 
+        @media (max-width: 768px) {
+            margin-right: 0;
+        }
+    }
 
     .userMenu {
         background-color: #072863;
         height: 100%;
         padding: 0 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .hidden-xs {
+        display: none;
     }
 }
 

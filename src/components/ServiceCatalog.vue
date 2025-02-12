@@ -126,17 +126,18 @@ function handleCreateService() {
 header {
   align-items: start;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
 
   .right {
       display: flex;
       flex-direction: row;
       gap: 20px;
-  }
-}
 
-main {
-    height: 900px;
+      @media (max-width: 768px) {
+          flex-wrap: wrap;
+      }
+  }
 }
 
 .results {
@@ -144,12 +145,15 @@ main {
     grid-gap: 40px 40px;
     grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
     margin: 20px 0 0 0;
+
+    @media (max-width: 400px) {
+        grid-template-columns: 1fr;
+    }
 }
 
 input {
     padding: 8px 4px;
 }
-
 .search-wrapper {
     align-items: center;
     background-color: #FFF;
@@ -157,28 +161,14 @@ input {
     border-radius: 4px;
     display: flex;
 
-    /* Base outline style (Chrome/Edge/Safari) */
     &:focus-within {
       outline: 2px solid rgb(0, 125, 250);
       outline-offset: 1px;
     }
 
-    /* Firefox has a slightly different blue */
-    @supports (-moz-appearance: none) {
-      &:focus-within {
-        outline: 2px solid rgb(0, 99, 220);
-      }
+    @media (max-width: 768px) {
+      width: 100%;
     }
-
-    /* Safari on macOS sometimes uses a darker blue */
-    @media not all and (min-resolution:.001dpcm) {
-      @supports (-webkit-appearance:none) {
-        &:focus-within {
-          outline: 2px solid rgb(0, 88, 208);
-        }
-      }
-    }
-
 }
 
 .search-icon {
@@ -228,7 +218,7 @@ input {
     /* HSL is nicer for handling color changes, esp. if you want to mimic real-world shadows */
     /* https://www.learnui.design/blog/color-in-ui-design-a-practical-framework.html#real-world-color-variations */
     &:hover {
-        background: hsl(180, 100%, 27%);
+        background: hsl(180, 100%, 25%);
     }
 }
 

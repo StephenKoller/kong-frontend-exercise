@@ -21,6 +21,7 @@
 </script>
 
 <style lang="scss" scoped>
+// TODO: share styles with ServiceCard
 .card {
     background-color: #fff;
     border-radius: 2px;
