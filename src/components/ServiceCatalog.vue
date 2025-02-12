@@ -119,7 +119,7 @@ function handleCreateService() {
 
 <style lang="scss" scoped>
 .service-catalog {
-    margin: 2rem auto;
+    margin: 2rem;
     padding: 0 20px;
 }
 

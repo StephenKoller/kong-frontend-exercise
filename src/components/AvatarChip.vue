@@ -3,9 +3,9 @@
     <img
       v-show="!imageLoadFailed"
       alt="Avatar for {{ name }}"
-      height="36"
+      :height="size ?? 36"
       :src="imageUrl"
-      width="36"
+      :width="size ?? 36"
       @error="handleImageError"
     >
     <div
@@ -19,7 +19,7 @@
 
 <script lang="ts" setup>
 import { defineProps, ref } from 'vue'
-const props = defineProps<{ imageUrl: string, name: string }>()
+const props = defineProps<{ imageUrl: string, name: string, size?: number }>()
 
 // ex: "John Doe" -> "JD"
 const initials = props.name
@@ -38,11 +38,10 @@ function handleImageError() {
 <style lang="scss" scoped>
 img {
     border-radius: 50%;
-    height: 36px;
-    width: 36px;
 }
 
 .chip {
-    letter-spacing: normal;
+  height: v-bind('size ? `${size}px` : "36px"');
+  width: v-bind('size ? `${size}px` : "36px"');
 }
 </style>

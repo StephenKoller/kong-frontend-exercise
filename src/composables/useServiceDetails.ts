@@ -1,12 +1,13 @@
 import { ref, onBeforeMount } from 'vue'
 import axios from 'axios'
+import type { Service } from '@/types/service'
 
 export default function useServices(): any {
   const serviceDetails = ref<any[]>([])
   const loading = ref<any>(false)
-  const error = ref<any>(false)
+  const error = ref<boolean>(false)
 
-  const getService = async (id: string): Promise<any> => {
+  const getService = async (id: string): Promise<void> => {
     try {
       // Initialize loading state
       loading.value = true
