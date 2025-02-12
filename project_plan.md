@@ -40,7 +40,6 @@
 #### Task 1: Create a pagination component
  - [x] Display a list of pages
  - [x] Display a 'next' and 'previous' button
- - [ ] Item count should be dynamic based on search results
 
 #### Task 2: Add test coverage
 
@@ -56,9 +55,9 @@
 
 ### Milestone 5: Final Polish
 #### Task 1: Responsive design
- - [ ] target breakpoints: 320px, 768px, 1024px, 1440px
- - [ ] test on mobile, tablet, desktop
- - [ ] make SCSS variables for colors, fonts, etc
+ - [x] target breakpoints: 320px, 768px, 1024px, 1440px
+ - [x] test on mobile, tablet, desktop
+ - [ ] ~~make SCSS variables for colors, fonts, etc~~
 
 #### Task 2: Documentation
  - [ ] update the README in the project with a section to describe your design considerations, assumptions, and trade-offs made during this exercise. Also feel free to include any notes about your submission.
@@ -82,6 +81,12 @@
 - make pagination more standard, allow user to jump to a specific page
 - add more filters to search
 - add 'clear search' button
-- make card height consistent to avoid jumping when paging through results
-- make navbar responsive at mobile widths
-- prevent skeleton cards from flashing when loadin
+- prevent skeleton cards from flashing when loading
+- make the pagination size dynamic based on the viewport width
+- improve view transitions
+
+- [x] add minimal types
+- [x] fix frontend types
+- [ ] fix tests
+- [x] ensure builds successfully
+- [ ] update readme with design considerations, assumptions, trade-offs
