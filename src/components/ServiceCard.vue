@@ -131,7 +131,7 @@ const chips = computed(() => {
     border-radius: 2px;
     display: flex;
     flex-direction: column;
-    height: 232x;
+    height: 232px;
     padding: 20px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 

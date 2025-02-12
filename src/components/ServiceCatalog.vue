@@ -74,7 +74,7 @@
     <footer>
       <PaginationControl
         :items-on-current-page="servicesPage.length"
-        :total-pages="totalPages"
+        :total-items="totalServices"
       />
     </footer>
   </section>
@@ -91,7 +91,7 @@ import SkeletonCard from './SkeletonCard.vue'
 
 const paginationStore = usePaginationStore()
 
-const { services, searchServices, loading } = useServices()
+const { services, totalServices, searchServices, loading } = useServices()
 
 const totalPages = ref(0)
 
@@ -120,7 +120,6 @@ function handleCreateService() {
 <style lang="scss" scoped>
 .service-catalog {
     margin: 2rem auto;
-    max-width: 1366px;
     padding: 0 20px;
 }
 

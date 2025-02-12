@@ -1,10 +1,13 @@
 import { ref, onBeforeMount } from 'vue'
 import axios from 'axios'
 
+// TODO: create type for Service
+
 export default function useServices(): any {
-  const services = ref<any[]>([])
-  const loading = ref<any>(false)
-  const error = ref<any>(false)
+  const services = ref<any>([])
+  const totalServices = ref<number>(0)
+  const loading = ref<boolean>(false)
+  const error = ref<boolean>(false)
 
   const paginateResults = (data: any) => {
     // need to show 9 services per page
@@ -21,7 +24,6 @@ export default function useServices(): any {
       return acc
     }, [])
 
-    console.log(paginatedData)
 
     return paginatedData
   }
@@ -36,6 +38,7 @@ export default function useServices(): any {
 
       // Store data in Vue ref
       services.value = paginateResults(data)
+      totalServices.value = data.length
     } catch (err: any) {
       error.value = true
     } finally {
@@ -54,6 +57,7 @@ export default function useServices(): any {
 
       // Store data in Vue ref
       services.value = paginateResults(data)
+      totalServices.value = data.length
     } catch (err: any) {
       error.value = true
     } finally {
@@ -70,6 +74,7 @@ export default function useServices(): any {
   // Return stateful data
   return {
     services,
+    totalServices,
     searchServices,
     loading,
     error,
