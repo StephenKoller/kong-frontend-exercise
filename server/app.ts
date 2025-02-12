@@ -48,13 +48,12 @@ app.route('/api/services').get((req: Request, res: Response) => {
 })
 
 // Service details route
-app.route('/api/service/:id').get((req: Request, res: Response) => {
+app.route('/api/services/:id').get((req: Request, res: Response) => {
   const { id } = req.params
   const data: Array<Service> = response.services
 
   const service = data.find((service: Service) => service.id === id)
 
-  console.log(service)
   if (!service) {
     return res.status(404).send('Not found')
   }

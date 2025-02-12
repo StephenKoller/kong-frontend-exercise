@@ -80,7 +80,7 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 
 function navigateToService() {
-  router.push(`/service/${props.id}`)
+  router.push(`/services/${props.id}`)
 }
 
 const props = defineProps<{
