@@ -1,5 +1,6 @@
 import express from 'express'
 import type { Request, Response } from 'express'
+import type { Service } from './types/service'
 import bodyParser from 'body-parser'
 import response from './data'
 import cors from 'cors'
@@ -13,9 +14,8 @@ app.use(bodyParser.urlencoded({
 }))
 
 // Data route
-app.route('/api/:entity').get((req: Request, res: Response) => {
-  const { entity } = req.params
-  const data: Record<string, any>[] = response[entity]
+app.route('/api/services').get((req: Request, res: Response) => {
+  const data: Array<Service> = response.services
 
   if (!data) {
     return res.status(404).send('Not found')
@@ -27,13 +27,13 @@ app.route('/api/:entity').get((req: Request, res: Response) => {
   // Determine if the property includes the filter string
   const itemContainsFilter = (str: string) => (String(str || '').toLowerCase().includes(query) || false)
 
-  let filteredData: Record<string, any>[]
+  let filteredData: Array<Service>
 
   if (!query) {
     filteredData = data
   } else {
     // Filter the response data if a filter query string is present
-    filteredData = data.filter((responseData: Record<string, any>) => {
+    filteredData = data.filter((responseData: Service) => {
       for (const property in responseData) {
         // Only allow searching when the object property is typeof `string`
         // If string is found, return true
@@ -48,11 +48,12 @@ app.route('/api/:entity').get((req: Request, res: Response) => {
 })
 
 // Service details route
-app.route('/api/:entity/:id').get((req: Request, res: Response) => {
-  const { entity, id } = req.params
-  const data: Record<string, any>[] = response[entity]
+app.route('/api/service/:id').get((req: Request, res: Response) => {
+  const { id } = req.params
+  const data: Array<Service> = response.services
 
-  const service = data.find((service: Record<string, any>) => service.id === id)
+  const service = data.find((service: Service) => service.id === id)
+
   console.log(service)
   if (!service) {
     return res.status(404).send('Not found')

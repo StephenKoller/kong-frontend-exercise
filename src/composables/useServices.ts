@@ -1,45 +1,42 @@
 import { ref, onBeforeMount } from 'vue'
 import axios from 'axios'
+import type { Service } from '@/types/service'
 
-// TODO: create type for Service
-
-export default function useServices(): any {
-  const services = ref<any>([])
+export default function useServices() {
+  const services = ref<Record<number, Array<Service>>>([])
   const totalServices = ref<number>(0)
   const loading = ref<boolean>(false)
   const error = ref<boolean>(false)
 
-  const paginateResults = (data: any) => {
+  const paginateResults = (data: Array<Service>): Record<number, Array<Service>> => {
     // need to show 9 services per page
     const perPage = 9
 
     // slice into groups of 9
     // e.g. { 0: [0, 1, 2, 3, 4, 5, 6, 7, 8], 1: [9, 10, 11, 12, 13, 14, 15, 16, 17] }
-    const paginatedData = data.reduce((acc: any, curr: any, index: number) => {
+    const paginatedData = data.reduce((acc: Record<number, Array<Service>>, curr: Service, index: number) => {
       const pageIndex = Math.floor(index / perPage)
       if (!acc[pageIndex]) {
         acc[pageIndex] = []
       }
       acc[pageIndex].push(curr)
       return acc
-    }, [])
-
+    }, {})
 
     return paginatedData
   }
 
-  const getServices = async (): Promise<any> => {
+  const getServices = async (): Promise<void> => {
     try {
       // Initialize loading state
       loading.value = true
-
       // Fetch data from the API
-      const { data } = await axios.get('/api/services')
+      const { data } = await axios.get<Array<Service>>('/api/services')
 
       // Store data in Vue ref
       services.value = paginateResults(data)
       totalServices.value = data.length
-    } catch (err: any) {
+    } catch (err: unknown) {
       error.value = true
     } finally {
       // Reset loading state
@@ -47,7 +44,7 @@ export default function useServices(): any {
     }
   }
 
-  const searchServices = async (searchTerm: string): Promise<any> => {
+  const searchServices = async (searchTerm: string): Promise<void> => {
     try {
       // Initialize loading state
       loading.value = true
@@ -58,7 +55,7 @@ export default function useServices(): any {
       // Store data in Vue ref
       services.value = paginateResults(data)
       totalServices.value = data.length
-    } catch (err: any) {
+    } catch (err: unknown) {
       error.value = true
     } finally {
       // Reset loading state

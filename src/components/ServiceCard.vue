@@ -23,7 +23,7 @@
 
     <footer>
       <div
-        v-if="metrics && hasValue(metrics)"
+        v-if="metrics && Object.values(metrics).some(Boolean)"
         class="metrics"
       >
         <div v-if="metrics.latency">
@@ -59,8 +59,8 @@
       </div>
       <div class="avatars">
         <AvatarChips
-          v-if="chips.length"
-          :chips="chips"
+          v-if="developers.length"
+          :chips="developers"
         />
       </div>
     </footer>
@@ -76,10 +76,6 @@ import type { Version, Metrics } from '@/types/service'
 import { PUBLICATION_STATUS } from '@/types/service'
 import { formatLargeNumber, formatPercentage } from '@/utils/formatters'
 import { useRouter } from 'vue-router'
-
-function hasValue(obj: Record<string, any>): boolean {
-  return Object.values(obj).some((value) => !!value)
-}
 
 const router = useRouter()
 
@@ -109,18 +105,16 @@ const status = computed(() => {
   }
 })
 
-const chips = computed(() => {
+const developers = computed(() => {
   if (!Array.isArray(props.versions)) {
     return []
   }
-  return props.versions
+
+  const developers = props.versions
     .filter(version => version.developer)
-    .map(version =>
-      ({
-        imageUrl: version.developer?.avatar,
-        name: version.developer?.name,
-      }),
-    )
+    .map(version => version.developer!)
+
+  return developers
 })
 
 </script>

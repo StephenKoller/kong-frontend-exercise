@@ -1,4 +1,5 @@
 import { faker } from '@faker-js/faker'
+import type { Developer, Service } from './types/service'
 
 const developerCount = 10
 
@@ -17,15 +18,16 @@ const developers = [...Array(developerCount).keys()].map(() => {
 })
 
 // Get a random developer from the developers array
-const getDeveloper = (): Record<string, string> => developers[faker.number.int({ min: 0, max: (developerCount - 1) })]
+const getDeveloper = (): Developer => developers[faker.number.int({ min: 0, max: (developerCount - 1) })]
 
 // NOTE: For the search functionality created in `/server/app.ts` arrays may ONLY be the value of a top-level property
 const data = () => {
-  const data: any = { services: [] }
+  const data: { services: Array<Service> } = { services: [] }
 
   for (let i = 0; i < (Math.random() * 100) + 50; i++) {
     const published = Math.random() < 0.75
-    const configured = published || Math.random() < 0.75
+    // const configured = published || Math.random() < 0.75
+    const configured = Math.random() < 0.75
 
     data.services.push({
       id: faker.string.uuid(),

@@ -2,13 +2,13 @@
   <div class="service-avatars">
     <div
       v-for="(chip, index) in firstTwoChips"
-      :key="chip.imageUrl"
+      :key="chip.avatar"
       class="avatar-container"
       :style="{right: `${index * 20}px` }"
     >
       <div v-if="index < 2">
         <AvatarChip
-          :image-url="chip.imageUrl"
+          :image-url="chip.avatar"
           :name="chip.name"
         />
       </div>
@@ -25,12 +25,9 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 import AvatarChip from './AvatarChip.vue'
+import type { Developer } from '@/types/service'
 
-export type Chip = {
-  name: string
-  imageUrl: string
-}
-const props = defineProps <{ chips: Array<Chip> }>()
+const props = defineProps <{ chips: Array<Developer> }>()
 const firstTwoChips = computed(() => props.chips.slice(0, 3))
 </script>
 
