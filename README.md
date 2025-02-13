@@ -1,21 +1,55 @@
-# Welcome
+# Kong Konnect Service Catalog
+#### Kong Frontend Take-Home Exercise
 
-Please take the time to read through all of the sections below; we want you to do great! :rocket:
+## Design Considerations
 
-Feel free to reach out to your recruiting contact with any questions or concerns.
+- Built responsive layouts that work well on desktop first, but still look good on other screens
+- Used Vue 3's Composition API for cleaner component code
+- Used Pinia to manage app state, specifically for pagination but with an eye to future enhancements
+- Added client-side pagination to keep things fast and responsive
 
-## Goal
+## Assumptions
+- Primary device for use is desktop / laptop computer with a resolution of at least 1280px wide
+- Targeted clients are 'modern browsers', so no weird CSS hacks or JS polyfills necessary
+- The number of services to manage could be in the 10s to 100s, not 1,000s
+- Development role is full-stack with frontend emphasis, allowing for both UI/UX considerations and API integration
 
-Modify the provided Vue 3 app to match [this mock](https://www.figma.com/file/swzJVL624G434CVdWi3FLv/Core-UI-Team-Project) as closely as possible while utilizing best-practices to improve the codebase and implement the functional requirements outlined below.
+## Trade-offs
 
-- The provided exercise files are a starting point and they have room for improvement; feel free to modify
-- Don't treat the mock as gospel -- if you see things that don't make sense, ask questions or implement what you think is right
-- In the exercise you are utilizing a local API; however, code your submission as if you are using a production API, accounting for typical issues that can occur
+### Performance vs. Development Speed
+- Went with client-side pagination and filtering to ship faster, though we'd probably want server-side for bigger data loads
+- Used Vue's built-in reactive systems instead of more complex state management patterns where possible, trading some scalability for simplicity
 
-### Links
+### Repetition
+In some areas, I leaned on repetition over perfectly DRY code in the interest of time. Examples include:
+- CSS variables for common values that could be extracted (especially colors for implementing a 'dark mode')
+- Some components that could be arguably abstracted further (e.g. BackArrowButton / ForwardArrowButton)
+- Duplicate type definitions that could be shared between frontend and backend
 
-- Figma Mock: <https://www.figma.com/file/swzJVL624G434CVdWi3FLv/Core-UI-Team-Project>
-- Acceptance criteria: <https://docs.google.com/document/d/1AIXTtrEMZBnfoLYXDlBYiEB-BTk7XNt2QlY7jWYdPv0/edit?tab=t.0#heading=h.8hapmwf98sj>
+## Improvements
+
+### Enhancements Made
+- Added fallback for developer avatar images; if image fails to load, the chip uses the first and last initials of the developer instead
+- Implemented responsive design considerations beyond the minimum requirements
+- Added loading states and error handling for better user experience
+
+### For the Future
+Were this to be code heading to production as part of a living codebase, I would prioritize these improvements:
+
+#### Technical Enhancements
+- Type-safety: migrating the back-end to [tRPC](https://trpc.io/) to make use of end-to-end type safety, allowing for safer, more rapid iteration for full-stack features
+- Comprehensive test coverage including:
+  - Unit tests for utility functions
+  - Component tests for complex UI elements
+  - Integration tests for critical user flows
+- Handle search / pagination errors gracefully with fallback UI states
+- Server-side pagination and filtering for better scalability
+
+#### User Experience
+- Dark mode support using CSS custom properties
+- Advanced filtering and sorting capabilities
+- Enhanced search with fuzzy matching and filters
+- Basic accessibility features like ARIA labels and keyboard navigation
 
 ## Functional Requirements
 
@@ -58,16 +92,6 @@ When it's ready, please send your recruiter a link to the source code in a GitHu
 
 ## Project Setup
 
-### Clone the repository
-
-```sh
-git clone git@github.com:Kong/konnect-team-interview-frontend-exercise.git
-```
-
-### pnpm
-
-This repository uses [`pnpm`](https://pnpm.io) rather than `npm` or `yarn`. [See here for instructions on installing pnpm](https://pnpm.io/installation).
-
 ### Install dependencies
 
 ```sh
@@ -87,110 +111,3 @@ In a separate terminal, start the Vue app:
 ```sh
 pnpm dev:ui
 ```
-
-## Searching the services endpoint
-
-The local API is available at `http://localhost:4001` after running `pnpm dev:server`.
-
-Searching this endpoint is supported by passing a query string with a value to search with (case-insensitive): `/api/services?q={value}`
-
-**Note**: The search endpoint evaluates all property values as a `string` to determine a match.
-
-### Searchable properties
-
-The search endpoint is configured to search the following fields for each service within the JSON response:
-
-```ts
-{
-  id: string;
-  name: string;
-  description: string;
-  type: string;
-}
-```
-
-### Search example
-
-If I wanted to search for a service with "dogs" in the service name, I would pass the name in the query string:
-
-```sh
-GET: /api/services?q=dogs
-```
-
-### Linting and fixing the code
-
-#### ESLint
-
-```sh
-# Run the linter
-pnpm lint
-
-# Fix linting errors
-pnpm lint:fix
-```
-
-#### Stylelint
-
-```sh
-# Run stylelint
-pnpm stylelint
-
-# Fix stylelint errors
-pnpm stylelint:fix
-```
-
-### Run Component and Unit Tests with [Vitest](https://vitest.dev/) and optionally [Vue Test Utils](https://test-utils.vuejs.org/)
-
-Component and unit test files must be located in the `/src/` directory and have a filename format of `*.spec.ts`. In the starter project, see `src/components/ServiceCatalog.spec.ts` for an example.
-
-```sh
-# Run tests
-pnpm test
-
-# or run the tests in the Vitest UI
-pnpm test:open
-```
-
-### Build and Minify for Production
-
-```sh
-pnpm build
-```
-
-### Preview your built application
-
-First, you'll need to build the app
-
-```sh
-pnpm build
-```
-
-Next, run the API server
-
-```sh
-pnpm dev:server
-```
-
-Now run the `preview` command
-
-```sh
-pnpm preview
-```
-
-### Committing Changes
-
-[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
-
-At Kong, we utilize [Conventional Commits](https://www.conventionalcommits.org/) in all of our repositories. [Commitizen](https://github.com/commitizen/cz-cli) can be used to to help build and enforce commit messages.
-
-If you're unfamiliar with conventional commits, it is **recommended** to use the following command in order to create your commits:
-
-```sh
-# Stage your changes
-git add -A
-
-# Trigger the commitizen CLI to help compose your commit message
-pnpm commit
-```
-
-This will trigger the Commitizen interactive prompt for building your commit message.
